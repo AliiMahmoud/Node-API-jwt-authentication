@@ -1,2 +1,22 @@
+# Dependency directory
 node_modules
-cred.txt
+
+# Logs
+logs
+*.log
+.DS_Store
+
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Optional npm cache directory
+.npm
+
+.idea

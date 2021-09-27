@@ -42,7 +42,7 @@ const port = process.env.PORT || 8080;
 // Connecting to the database then firing the server
 database.connect()
     .then(() => {
-        console.log('Connected to DB Successfully')
+        console.log('Connected Successfully')
         app.listen(port, () => console.log(`server is running on port ${port}`));
     })
     .catch((err) => console.log(err))

@@ -4,8 +4,8 @@ let isProduction = (process.env.NODE_ENV === 'production')
 function errorHandler(err, _req, res, _next) {
 
     // Print Stack trace while developing only
-    if (!isProduction)
-        console.log(err.stack);
+    // if (!isProduction)
+    //     console.log(err.stack);
 
     if (typeof (err) === 'string') {
         // custom application error

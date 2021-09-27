@@ -1,10 +1,14 @@
+///////////////////////////////////////
+//          /api/albums 
+//////////////////////////////////////
+
 const express = require('express')
+
 // Requring the Sub-Routers
 const tracksRouter = require('./tracks')
 var auth = require('../../middlewares/auth');
 
 const albumsRouter = express.Router()
-
 
 albumsRouter.get('/', auth.required, (_req, res) => res.json({ message: 'Getting all Albums' }))
 albumsRouter.get('/:albumId', (req, res) => res.json({ message: `Getting album with id ${req.params.albumId}` }))

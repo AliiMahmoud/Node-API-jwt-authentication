@@ -1,6 +1,7 @@
 const express = require('express')
 // Requring the Sub-Routers
 const albumsRouter = require('./APIs/albums')
+const auth = require('./auth')
 
 const router = express.Router()
 

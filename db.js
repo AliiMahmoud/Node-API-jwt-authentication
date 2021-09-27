@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 // moved to -> ENV 
 
 // Database URL
-const url = 'mongodb+srv://mainuser:nfErHB6vp7Wnh1Hb@node-api.ngdzd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const url = process.env.DB;
 //  Preparing the Mongo cilent database
 const client = new MongoClient(url);
 

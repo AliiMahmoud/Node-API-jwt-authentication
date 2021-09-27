@@ -1,6 +1,10 @@
 # Dependency directory
 node_modules
 
+#.env file that contain sensitive data
+
+.env
+
 # Logs
 logs
 *.log

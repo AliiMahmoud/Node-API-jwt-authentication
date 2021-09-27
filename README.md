@@ -1,6 +1,6 @@
 #  [NodeJS API App with JWT Authentication](#)
 
-> ### <strong> Example Node </strong> (Express + MongoDB) with CRUD, auth, advanced patterns, etc
+> ### <strong> Example Node </strong> (Express + MongoDB) with CRUD, JWT auth, etc
 
 <br>
 

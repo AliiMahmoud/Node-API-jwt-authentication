@@ -1,7 +1,7 @@
 #  [NodeJS API App with JWT Authentication](#)
 
 > ### <strong> API CRUD Node APP </strong> (Express + MongoDB) with JWT auth.
-> This app Performs API CRUD operations on mongodb database.
+> This app Performs API CRUD operations on mongodb movies database.
 >>        - Authorization/Generate access token
 >>        - CRUD on movies/theater
 >>        - CRUD on movie's comment  

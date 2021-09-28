@@ -16,9 +16,9 @@ const jwt = require('jsonwebtoken');
  * @param {import('express').Response} res - express Response Object
  */
 module.exports.register = async function (req, res) {
-    let { username, password } = req.body
-    // validating the username and the hash with the schema
-    let { error } = userSchema.validate({ username, password })
+    let { email, password } = req.body
+    // validating the email and the hash with the schema
+    let { error } = userSchema.registerSchema.validate({ email, password })
     if (error) {
         res.status(500).json({ message: error.details[0].message.replace(/"/g, '') })
     }
@@ -26,16 +26,16 @@ module.exports.register = async function (req, res) {
         // generating the hash
         let hash = md5(password)
         // checking if it already exists
-        const userExists = await userModel.getUser({ username })
+        const userExists = await userModel.getUser({ email })
         if (userExists == null) {
-            let inserted = await userModel.insertUser({ username, hash });
+            let inserted = await userModel.insertUser({ email, password: hash });
             if (inserted.acknowledged)
-                res.status(201).json({ message: 'created Successfully', user: { id: inserted.insertedId, username }, Token: getnerateToken({ id: inserted.insertedId, username }) })
+                res.status(201).json({ message: 'created Successfully', user: { id: inserted.insertedId, email }, Token: getnerateToken({ id: inserted.insertedId, email }) })
             else
                 res.status(500).json({ message: 'Something went wrong!' })
         }
         else
-            res.status(400).json({ message: "username already exists" })
+            res.status(400).json({ message: "email already exists" })
     }
 }
 
@@ -47,9 +47,9 @@ module.exports.register = async function (req, res) {
  * @param {import('express').Response} res - express Response Object
  */
 module.exports.login = async function (req, res) {
-    let { username, password } = req.body
-    // validating the username and the password with the schema
-    let { error } = userSchema.validate({ username, password })
+    let { email, password } = req.body
+    // validating the email and the password with the schema
+    let { error } = userSchema.loginSchema.validate({ email, password })
     if (error) {
         res.status(500).json({ message: error.details[0].message.replace(/"/g, '') })
     }
@@ -57,11 +57,11 @@ module.exports.login = async function (req, res) {
         // generating the hash
         let hash = md5(password)
         // checking if it already exists
-        const userExists = await userModel.getUser({ username, hash })
+        const userExists = await userModel.getUser({ email, password: hash })
         if (userExists == null)
-            res.status(404).json({ message: 'Wrong username or password' })
+            res.status(404).json({ message: 'Wrong email or password' })
         else
-            res.status(201).json({ message: 'Successful', user: { id: userExists._id, username }, Token: getnerateToken({ id: userExists._id, username }) })
+            res.status(201).json({ message: 'Successful', user: { id: userExists._id, email }, Token: getnerateToken({ id: userExists._id, email }) })
     }
 }
 
@@ -69,7 +69,7 @@ module.exports.login = async function (req, res) {
  * Generates the taken (JWT) with expiry date after 10 days
  * @param {Object} user - user data
  * @param {String} user.id - user's unique id
- * @param {String} user.username - username
+ * @param {String} user.email - email
  * @returns access token JWT
  */
 let getnerateToken = function (user) {
@@ -78,7 +78,7 @@ let getnerateToken = function (user) {
     exp.setDate(today.getDate() + 10); // valid for 10 days
     return jwt.sign({
         id: user.id,
-        username: user.username,
+        email: user.email,
         exp: parseInt(exp.getTime() / 1000),
     }, process.env.SECRET);
 }

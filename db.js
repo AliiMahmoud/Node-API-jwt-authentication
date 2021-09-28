@@ -1,8 +1,5 @@
 const { MongoClient } = require("mongodb");
 
-// TO-DO here //
-// moved to -> ENV 
-
 // Database URL
 const url = process.env.DB;
 //  Preparing the Mongo cilent database
@@ -12,10 +9,10 @@ const client = new MongoClient(url);
 module.exports.connect = async function () {
     try {
         await client.connect();
-        // console.log("Connected correctly to DataBase");
     }
     catch (err) {
-        console.log(err.stack);
+        // error handling
+        throw new Error(err.message)
     }
 }
 
@@ -28,7 +25,7 @@ module.exports.getDB = function (dbName) {
         return client.db(dbName)
     }
     catch (err) {
-        console.log(err.stack);
+        throw new Error(err.message)
     }
 }
 
@@ -38,6 +35,6 @@ module.exports.close = async function () {
         await client.close();
     }
     catch (err) {
-        console.log(err.stack);
+        throw new Error(err.message)
     }
 }

@@ -7,8 +7,8 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const morgan = require('morgan')
 const database = require('./db')
-const errorHandler = require('./middlewares/error-handler')
-const router = require('./routers/index')
+const errorHandler = require('./src/middlewares/error-handler')
+const router = require('./src/routers/index')
 
 
 let isProduction = (process.env.NODE_ENV == 'production')

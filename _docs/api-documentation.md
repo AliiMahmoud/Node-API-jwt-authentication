@@ -75,6 +75,7 @@ It returns the following status codes in its API:
 | :--- | :--- |
 | 200 | `OK` |
 | 201 | `CREATED` |
+| 401 | `AUTHENTICATION REQUIRED` |
 | 404 | `NOT FOUND` |
 | 405 | `METHOD NOT ALLOWED` |
 | 500 | `INTERNAL SERVER ERROR` |

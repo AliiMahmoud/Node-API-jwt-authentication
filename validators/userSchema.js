@@ -1,9 +1,13 @@
 const Joi = require('joi')
 
-// User model schema for validation
-const userSchema = Joi.object({
-    username: Joi.string().required().trim().min(3),
+// User model schema for validating the registeration
+module.exports.registerSchema = Joi.object({
+    email: Joi.string().required().trim().email(),
     password: Joi.string().required().trim().min(8)
 })
 
-module.exports = userSchema
+// User model schema for login validation
+module.exports.loginSchema = Joi.object({
+    email: Joi.string().required().trim().email(),
+    password: Joi.string().required().trim()
+})

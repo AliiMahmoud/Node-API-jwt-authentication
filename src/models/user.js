@@ -1,4 +1,4 @@
-const connection = require("../db")
+const connection = require("../../db")
 
 
 // MongoDB cluster's database name

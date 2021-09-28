@@ -22,7 +22,7 @@ To get the Node server running:
 
 # Project Overview
 
-## Application Structure ##
+## Application Structure `src/` ##
 
 - `app.js` - The entry point to the application. This file defines our express server. It also requires the router we'll be using in the application.
 - `db.js` -  This file connects the app it to MongoDB using MongoDB node.js driver

@@ -9,12 +9,12 @@ var jwt = require('../../middlewares/auth');
 // merge Params to pass the params from the parent router(movies)
 const commentsRouter = express.Router({ mergeParams: true })
 
-commentsRouter.get('/', (req, res) => res.json({ message: `Get all comments of movieId  ${req.movieId}` }))
-commentsRouter.post('/', (req, res) => res.json({ message: `Post a comment for movieId ${req.movieId}` }))
+commentsRouter.get('/', jwt.optional, (req, res) => res.json({ message: `Get all comments of movieId  ${req.params.movieId}` }))
+commentsRouter.post('/', jwt.optional, (req, res) => res.json({ message: `Post a comment for movieId ${req.params.movieId}` }))
 
-commentsRouter.get('/:commentId', (req, res) => res.json({ message: `Get comment with id ${req.params.commentId} of movie with id ${req.params.movieId}` }))
-commentsRouter.put('/:commentId', (req, res) => res.json({ message: `Put comment with id ${req.params.commentId} of movie with id ${req.params.movieId}` }))
-commentsRouter.delete('/:commentId', (req, res) => res.json({ message: `Delete comment with id ${req.params.commentId} of movie with id ${req.params.movieId}` }))
+commentsRouter.get('/:commentId', jwt.optional, (req, res) => res.json({ message: `Get comment with id ${req.params.commentId} of movie with id ${req.params.movieId}` }))
+commentsRouter.put('/:commentId', jwt.optional, (req, res) => res.json({ message: `Put comment with id ${req.params.commentId} of movie with id ${req.params.movieId}` }))
+commentsRouter.delete('/:commentId', jwt.optional, (req, res) => res.json({ message: `Delete comment with id ${req.params.commentId} of movie with id ${req.params.movieId}` }))
 
 
 // Sending Method Not Allowed for other methods associated with /api/movies/{movieId}/comments/

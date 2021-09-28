@@ -2,15 +2,14 @@
 
 > ### <strong> API CRUD Node APP </strong> (Express + MongoDB) with JWT auth.
 > Performs CRUD on a simple movies database 
-<br>
 
 # Outline
 1. [Setting the environment](#Setting-things)
-2. [API Documentation](##Use-cases)
-    - [Authorization](##Authorization)
-    - [Endpoints](##API-Endpoints)
-    - [Responses](##Response-Format)
-3. [Application Structure](##Application-Structure)
+2. [API Documentation](#Use-cases)
+    - [Authorization](#Authorization)
+    - [Endpoints](#API-Endpoints)
+    - [Responses](#Response-Format)
+3. [Application Structure](#Application-Structure)
 4. [Useful Resources](#Useful-Resources)
 
 

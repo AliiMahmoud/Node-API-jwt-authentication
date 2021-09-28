@@ -2,15 +2,14 @@
 
 > ### <strong> API CRUD Node APP </strong> (Express + MongoDB) with JWT auth.
 > Performs CRUD on a simple movies database 
-<br>
 
 # Outline
 1. [Setting the environment](#Setting-things)
-2. [API Documentation](##Use-cases)
-    - [Authorization](##Authorization)
-    - [Endpoints](##API-Endpoints)
-    - [Responses](##Response-Format)
-3. [Application Structure](##Application-Structure)
+2. [API Documentation](#Use-cases)
+    - [Authorization](#Authorization)
+    - [Endpoints](#API-Endpoints)
+    - [Responses](#Response-Format)
+3. [Application Structure](#Application-Structure)
 4. [Useful Resources](#Useful-Resources)
 
 
@@ -82,8 +81,11 @@ Most of endpoints return the JSON representation of the resources created or edi
   "data"    : string
 }
 ```
+
 The `message` attribute contains a message commonly used to indicate errors.
+
 The `success` attribute describes if the transaction was successful or not.
+
 The `data` attribute contains any other associated with the response..
 
 ## Used Status Codes
@@ -132,7 +134,5 @@ It returns the following status codes in its API:
 
 - [JWT Handbook](https://auth0.com/resources/ebooks/jwt-handbook) - To understand how JWT works
 - [Express middlewares](https://expressjs.com/en/guide/using-middleware.html) - To use middlewares as documented
-
 - [Joi ](https://joi.dev/api/) `Documentation`
-
-- [Link](https://www.freecodecamp.org/news/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52/) - An article about JWT with node.js 
+- [Using MongoDB Driver with Node](https://www.mongodb.com/blog/post/quick-start-nodejs-mongodb--how-to-get-connected-to-your-database)

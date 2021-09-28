@@ -131,7 +131,4 @@ It returns the following status codes in its API:
 
 - [JWT Handbook](https://auth0.com/resources/ebooks/jwt-handbook) - To understand how JWT works
 - [Express middlewares](https://expressjs.com/en/guide/using-middleware.html) - To use middlewares as documented
-
 - [Joi ](https://joi.dev/api/) `Documentation`
-
-- [Link](https://www.freecodecamp.org/news/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52/) - An article about JWT with node.js 

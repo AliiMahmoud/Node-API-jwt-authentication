@@ -81,8 +81,11 @@ Most of endpoints return the JSON representation of the resources created or edi
   "data"    : string
 }
 ```
+
 The `message` attribute contains a message commonly used to indicate errors.
+
 The `success` attribute describes if the transaction was successful or not.
+
 The `data` attribute contains any other associated with the response..
 
 ## Used Status Codes

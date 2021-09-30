@@ -1,4 +1,4 @@
-const connection = require("../../db")
+const connection = require("../../../db")
 
 
 // MongoDB cluster's database name
@@ -10,14 +10,14 @@ const colName = 'users'
 let isProduction = (process.env.NODE_ENV == 'production')
 
 /**
- * It inserts the given object [user] into Database
- * and returns true if inserted
+ * It inserts the given object `user` into Database
+ * and returns the `insertedID`
  * @param {Object} user - inserted user object
  * @param {String} user.email - user provided email
  * @param {String} user.password - hash string of user's password
- * @returns true if inserted, false if not
+ * @returns the `insertedID` if successful, `null` if not
  * @example
- *  let flag = insertUser({email: 'email', 'password': 'c1d1af33322fffd'})
+ *  let insertedUser = insertUser({email: 'email', 'password': 'c1d1af33322fffd'})
 */
 module.exports.insertUser = async function (user) {
     try {
@@ -33,22 +33,22 @@ module.exports.insertUser = async function (user) {
 }
 
 /** 
- * It get a user object using the provided username and hash
+ * It `get` a user object using the provided **username** and **hash**
  * and returns it
- * @param {Object} user - user object
- * @param {String} user.email - user provided email
- * @param {String} user.password - hash string of user's password
- * @returns Object [User] if exits and null if not
+ * @param {Object} filter - filter to match
+ * @param {String} filter.email - user provided email
+ * @param {String} filter.password - hash string of user's password
+ * @returns `User` Object if exits and `null` if not
  * @example
  *  let user = getUser({ email: 'email', password: 'c1d1af33322fffd' })
  * or
  *  let user = getUser({ email: 'email' })
 */
-module.exports.getUser = async function (user) {
+module.exports.getUser = async function (filter) {
     try {
         const db = connection.getDB(dbName)
         const col = db.collection(colName);
-        const result = await col.findOne(user)
+        const result = await col.findOne(filter)
         return result
     }
     catch (error) {

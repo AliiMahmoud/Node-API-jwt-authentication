@@ -8,9 +8,9 @@ const userController = require('../controllers/user')
 
 const router = express.Router()
 
-// Create User - register and send the token
+// Create User - register and send the token in json 
 router.post('/', userController.register)
-// Login user and send the token
+// Login user and send the token in json 
 router.post('/login', userController.login)
 
 // Exporting the auth router

@@ -6,7 +6,7 @@ const authRouter = require('./auth')
 
 const router = express.Router()
 
-router.get('/', (_req, res) => res.status(200).json({ message: 'Welcome to The Music API APP' }))
+router.get('/', (_req, res) => res.status(200).json({ message: 'Welcome to Movie API APP' }))
 
 
 // API Routes

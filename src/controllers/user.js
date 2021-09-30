@@ -1,7 +1,7 @@
 // requiring the person model
-const userModel = require('../models/user');
+const userModel = require('../models/user/user');
 // requiring the user schema validator
-const userSchema = require('../validators/userSchema');
+const userSchema = require('../models/user/userSchema');
 // Md5 for hashing the password
 var md5 = require('md5');
 // JWT to generate the tokens
@@ -12,15 +12,15 @@ const jwt = require('jsonwebtoken');
  * Middleware function to add a registered user into DB 
  * and generate JWT for API authentication
  * after validation
- * @param {import('express').RequestHandler} req - express Request handler Object
- * @param {import('express').Response} res - express Response Object
+ * @param req - express Request handler Object
+ * @param res - express Response Object
  */
 module.exports.register = async function (req, res) {
     let { email, password } = req.body
     // validating the email and the hash with the schema
-    let { error } = userSchema.registerSchema.validate({ email, password })
+    let { error } = userSchema.register.validate({ email, password })
     if (error) {
-        res.status(500).json({ message: error.details[0].message.replace(/"/g, '') })
+        res.status(500).json({ success: 'false', message: error.details[0].message.replace(/"/g, '') })
     }
     else {
         // generating the hash
@@ -30,12 +30,12 @@ module.exports.register = async function (req, res) {
         if (userExists == null) {
             let inserted = await userModel.insertUser({ email, password: hash });
             if (inserted.acknowledged)
-                res.status(201).json({ message: 'created Successfully', user: { id: inserted.insertedId, email }, Token: getnerateToken({ id: inserted.insertedId, email }) })
+                res.status(201).json({ success: 'true', message: 'user created successfully', data: { id: inserted.insertedId, email, Token: getnerateToken({ id: inserted.insertedId, email }) } })
             else
-                res.status(500).json({ message: 'Something went wrong!' })
+                res.status(500).json({ success: 'false', message: 'Something went wrong' })
         }
         else
-            res.status(400).json({ message: "email already exists" })
+            res.status(400).json({ success: 'false', message: "user already exists" })
     }
 }
 
@@ -43,15 +43,15 @@ module.exports.register = async function (req, res) {
  * Middleware function to login a user 
  * and generates and sends JWT for API authentication
  * after validating the data
- * @param {import('express').RequestHandler} req - express Request handler Object
- * @param {import('express').Response} res - express Response Object
+ * @param req - express Request handler Object
+ * @param res - express Response Object
  */
 module.exports.login = async function (req, res) {
     let { email, password } = req.body
     // validating the email and the password with the schema
-    let { error } = userSchema.loginSchema.validate({ email, password })
+    let { error } = userSchema.login.validate({ email, password })
     if (error) {
-        res.status(500).json({ message: error.details[0].message.replace(/"/g, '') })
+        res.status(500).json({ success: 'false', message: error.details[0].message.replace(/"/g, '') })
     }
     else {
         // generating the hash
@@ -59,9 +59,9 @@ module.exports.login = async function (req, res) {
         // checking if it already exists
         const userExists = await userModel.getUser({ email, password: hash })
         if (userExists == null)
-            res.status(404).json({ message: 'Wrong email or password' })
+            res.status(404).json({ success: 'false', message: 'Wrong email or password' })
         else
-            res.status(201).json({ message: 'Successful', user: { id: userExists._id, email }, Token: getnerateToken({ id: userExists._id, email }) })
+            res.status(200).json({ success: 'true', message: 'Successful login', data: { id: userExists._id, email, Token: getnerateToken({ id: userExists._id, email }) } })
     }
 }
 

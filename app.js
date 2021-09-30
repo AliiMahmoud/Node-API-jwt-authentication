@@ -52,5 +52,4 @@ database.connect()
         console.log("Could'nt connect to DB")
         if (!isProduction)
             console.log(err.stack)
-        app.listen(port, () => console.log(`server is running on port ${port}`));
     })

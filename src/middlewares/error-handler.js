@@ -9,21 +9,21 @@ function errorHandler(err, _req, res, _next) {
 
     if (typeof (err) === 'string') {
         // custom application error
-        return res.status(400).json({ message: err });
+        return res.status(400).json({ success: "false", message: err });
     }
 
     // jwt authentication error
     if (err.name === 'UnauthorizedError') {
         switch (err.code) {
-            case 'invalid_token': return res.status(401).json({ message: 'invalid_token' })
-            case 'credentials_required': return res.status(401).json({ message: 'No authorization token was found' })
+            case 'invalid_token': return res.status(401).json({ success: "false", message: 'invalid_token' })
+            case 'credentials_required': return res.status(401).json({ success: "false", message: 'No authorization token was found' })
             default: break
         }
-        return res.status(401).json({ message: 'Authentication error' });
+        return res.status(401).json({ success: "false", message: 'Authentication error' });
     }
 
     // default to 500 server error
-    return res.status(err.status || 500).json({ message: err.message });
+    return res.status(err.status || 500).json({ success: "false", message: err.message });
 }
 
 module.exports = errorHandler;

@@ -2,7 +2,6 @@
 node_modules
 
 #.env file that contain sensitive data
-
 .env
 
 # Logs
@@ -17,12 +16,6 @@ pids
 *.pid
 *.seed
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
-# Optional npm cache directory
+# npm cache directory
 .npm
-
 .idea
-todo
-useful resources.txt

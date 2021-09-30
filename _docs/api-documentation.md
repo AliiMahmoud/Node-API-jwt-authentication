@@ -3,12 +3,12 @@
 ## Use cases ##
     This app Performs API CRUD operations on mongodb database.
         - Authorization/Generate access token
-        - movies/theater
-        - comment on a movie 
+        - movies/theater - CRUD
+        - comment on a specific movie - CRUD
 ## Authorization ##
     To authenticate an API request, you should provide your API token in the `Authorization` header.
     All API requests require the use of a generated API token. You can find your API token, or generate a new one in the following endpoints.
-    Required `body` header data for **both**:
+    Required `body` header data for *both*:
         - email
         - password
     
@@ -69,7 +69,7 @@ The `data` attribute contains any other associated with the response..
 
 ## Used Status Codes
 
-It returns the following status codes in its API:
+It returns the following status codes:
 
 | Status Code | Description |
 | :--- | :--- |

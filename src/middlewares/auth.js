@@ -2,7 +2,7 @@ var jwt = require('express-jwt');
 
 /**
  * Extracts the token from the authorization header
- * @param {Object} req - The request object
+ * @param req - The request object
  * @returns {String} the provided token
  *  */ 
 function getTokenFromHeader(req) {

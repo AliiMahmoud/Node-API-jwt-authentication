@@ -24,13 +24,13 @@ To get the Node server running:
 
 ## Application Structure `src/` ##
 
-- `app.js` - The entry point to the application. This file defines our express server. It also requires the router we'll be using in the application.
-- `db.js` -  This file connects the app it to MongoDB using MongoDB node.js driver
+- `app.js` - The entry point to the application. This file defines our express server, requires the routers and some middlewares.
+- `db.js` -  This file connects the app to MongoDB using MongoDB node.js driver
 - `routers/` - Folder contains the route definitions for the app.
-- `middlewares/` - Folder contains our middlewares to handle requests (jwt, error handler).
+- `middlewares/` - Folder contains our middlewares to handle some requests (jwt, error handler).
 - `controllers/` - This folder contains main controllers.
 - `models/` - This folder contains the data models.
-- `validators/` - This folder contain JOI's data validation schemas.
+- `models/modelname/schema` - This file contain JOI's data validation schema for every data model.
 
 
 ## Dependencies

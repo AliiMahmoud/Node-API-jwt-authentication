@@ -13,12 +13,12 @@ const movieController = require('../../controllers/movie')
 // Movie's main routes Handler
 const moviesRouter = express.Router()
 
-moviesRouter.get('/', jwt.optional, movieController.getAllMovies)
-moviesRouter.post('/', jwt.optional, movieController.createMovie)
+moviesRouter.get('/', jwt.required, movieController.getAllMovies)
+moviesRouter.post('/', jwt.required, movieController.createMovie)
 
-moviesRouter.get('/:movieId', jwt.optional, movieController.getMovie)
-moviesRouter.put('/:movieId', jwt.optional, movieController.updateMovie)
-moviesRouter.delete('/:movieId', jwt.optional, movieController.deleteMovie)
+moviesRouter.get('/:movieId', jwt.required, movieController.getMovie)
+moviesRouter.put('/:movieId', jwt.required, movieController.updateMovie)
+moviesRouter.delete('/:movieId', jwt.required, movieController.deleteMovie)
 
 
 // Sending Method Not allowed for other methods associated with /api/movies/

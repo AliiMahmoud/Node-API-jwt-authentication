@@ -10,8 +10,12 @@ const theaterSchema = require('../models/theater/theaterSchema');
  * @param req - express Request handler Object
  * @param res - express Response Object
  */
-module.exports.getAllTheaters = async function (req, res) {
-
+module.exports.getAllTheaters = async function (_req, res) {
+    let theaters = await theaterModel.getAllTheaters()
+    if (theaters == null)
+        res.status(500).json({ success: "false", message: "Something went wrong" })
+    else
+        res.status(200).json({ success: "true", message: "Getting all movies", data: theaters })
 }
 
 /**
@@ -31,12 +35,10 @@ module.exports.createTheater = async function (req, res) {
     }
     else {
         let inserted = await theaterModel.insertTheater(theater)
-        if (inserted.acknowledged) {
-            theater.id = inserted.insertedId
+        if (inserted.acknowledged)
             res.status(201).json({ success: "true", message: 'Theater created successfully', data: theater })
-        }
         else
-            res.status(500).json({ success: "false", message: 'Internal server error!' })
+            res.status(500).json({ success: "false", message: 'Something went wrong!' })
     }
 }
 
@@ -48,13 +50,18 @@ module.exports.createTheater = async function (req, res) {
  * @param res - express Response Object
  */
 module.exports.getTheater = async function (req, res) {
-    let theaterId = req.params.theaterId
-    let _id = ObjectID(theaterId)
-    let theater = await theaterModel.getTheater({ _id })
-    if (theater == null)
-        res.status(404).json({ success: "false", message: "Can't find the theater" })
-    else
-        res.status(200).json({ success: "true", message: "Theater found", data: theater })
+    try {
+        let theaterId = req.params.theaterId
+        let _id = ObjectID(theaterId)
+        let theater = await theaterModel.getTheater({ _id })
+        if (theater == null)
+            res.status(404).json({ success: "false", message: "Can't find the theater" })
+        else
+            res.status(200).json({ success: "true", message: "Theater found", data: theater })
+    }
+    catch (err) {
+        res.status(404).json({ success: "false", message: "Can't find the movie" })
+    }
 }
 
 /**
@@ -66,7 +73,29 @@ module.exports.getTheater = async function (req, res) {
  * @param res - express Response Object
  */
 module.exports.updateTheater = async function (req, res) {
-
+    try {
+        let theater = req.body
+        // validating the theater data fields
+        let { error } = theaterSchema.validate(theater)
+        if (error) {
+            res.status(500).json({ success: 'false', message: error.details[0].message.replace(/"/g, '') })
+        }
+        else {
+            let theaterId = req.params.theaterId
+            let _id = ObjectID(theaterId)
+            let updated = await theaterModel.updateTheater({ _id }, theater)
+            theater._id = theaterId
+            if (updated == null)
+                res.status(500).json({ success: "false", message: "Something went wrong" })
+            else if (updated == false)
+                res.status(404).json({ success: "false", message: "Can't find the theater" })
+            else
+                res.status(200).json({ success: "true", message: "theater updated", data: theater })
+        }
+    }
+    catch (err) {
+        res.status(404).json({ success: "false", message: "Can't find the theater" })
+    }
 }
 
 /**
@@ -77,13 +106,18 @@ module.exports.updateTheater = async function (req, res) {
  * @param res - express Response Object
  */
 module.exports.deleteTheater = async function (req, res) {
-    let theaterId = req.params.theaterId
-    let _id = ObjectID(theaterId)
-    let deleted = await theaterModel.deleteTheater({ _id })
-    if (deleted == true)
-        res.status(200).json({ success: "true", message: "theater deleted" })
-    else if (deleted == false)
-        res.status(404).json({ success: "false", message: "Can't find the theater" })
-    else
-        res.status(500).json({ success: "false", message: "Internal server error" })
+    try {
+        let theaterId = req.params.theaterId
+        let _id = ObjectID(theaterId)
+        let deleted = await theaterModel.deleteTheater({ _id })
+        if (deleted == false)
+            res.status(404).json({ success: "false", message: "Can't find the theater" })
+        else if (deleted == null)
+            res.status(500).json({ success: "false", message: "Something went wrong" })
+        else
+            res.status(200).json({ success: "true", message: "theater deleted", data: deleted })
+    }
+    catch (err) {
+        res.status(404).json({ success: "false", message: "Can't find the movie" })
+    }
 }

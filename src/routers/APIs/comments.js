@@ -12,12 +12,12 @@ const commentController = require('../../controllers/comment')
 // merge Params to pass the params from the parent router(movies)
 const commentsRouter = express.Router({ mergeParams: true })
 
-commentsRouter.get('/', jwt.optional, commentController.getAllComments)
-commentsRouter.post('/', jwt.optional, commentController.createComment)
+commentsRouter.get('/', jwt.required, commentController.getAllComments)
+commentsRouter.post('/', jwt.required, commentController.createComment)
 
-commentsRouter.get('/:commentId', jwt.optional, commentController.geComment)
-commentsRouter.put('/:commentId', jwt.optional, commentController.updateComment)
-commentsRouter.delete('/:commentId', jwt.optional, commentController.deleteComment)
+commentsRouter.get('/:commentId', jwt.required, commentController.geComment)
+commentsRouter.put('/:commentId', jwt.required, commentController.updateComment)
+commentsRouter.delete('/:commentId', jwt.required, commentController.deleteComment)
 
 // Sending Method Not Allowed for other methods associated with /api/movies/{movieId}/comments/
 commentsRouter.all('/', function (_req, res) { res.status(405).json({ success: "false", message: 'Method Not Allowed' }) })

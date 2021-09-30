@@ -55,6 +55,33 @@ module.exports.getTheater = async function (filter) {
 }
 
 /** 
+ * It get all `theaters` in the Database in an array
+ * @returns `theaters` Array
+ * @example
+ *  let theaters = getAllTheaters()
+*/
+module.exports.getAllTheaters = async function () {
+    try {
+        const db = connection.getDB(dbName)
+        const col = db.collection(colName);
+        const cursor = col.find({})
+        // getting only the first 10
+        let count = 10
+        let result = []
+        while (await cursor.hasNext() && count) {
+            result.push(await cursor.next())
+            count--
+        }
+        return result
+    }
+    catch (error) {
+        if (!isProduction)
+            console.log(error.stack)
+        return null;
+    }
+}
+
+/** 
  * It *Deletes* a `theater` object using the provided `theaterId`
  * and returns `true` or `false`
  * @param {Object} filter - filter to match
@@ -68,8 +95,11 @@ module.exports.deleteTheater = async function (filter) {
         const db = connection.getDB(dbName)
         const col = db.collection(colName);
         const result = await col.findOneAndDelete(filter)
-        /// TODO boolean or check the result
-        return result
+        // Not found
+        if (result.value == null)
+            return false
+        else
+            return result.value
     }
     catch (error) {
         if (!isProduction)
@@ -94,7 +124,11 @@ module.exports.updateTheater = async function (filter, theater) {
         const db = connection.getDB(dbName)
         const col = db.collection(colName);
         const result = await col.findOneAndReplace(filter, theater)
-        return result
+        // if not found return false opertaion
+        if (result.value == null)
+            return false
+        else
+            return true
     }
     catch (error) {
         if (!isProduction)

@@ -13,7 +13,7 @@ const movieSchema = require('../models/movie/movieSchema');
 module.exports.getAllMovies = async function (_req, res) {
     let movies = await movieModel.getAllMovies()
     if (movies == null)
-        res.status(500).json({ success: "false", message: "Internal server error" })
+        res.status(500).json({ success: "false", message: "Something went wrong" })
     else
         res.status(200).json({ success: "true", message: "Getting all movies", data: movies })
 }
@@ -35,11 +35,10 @@ module.exports.createMovie = async function (req, res) {
     }
     else {
         let inserted = await movieModel.insertMovie(movie)
-        if (inserted.acknowledged) {
+        if (inserted.acknowledged)
             res.status(201).json({ success: "true", message: 'movie created successfully', data: movie })
-        }
         else
-            res.status(500).json({ success: "false", message: 'Internal server error!' })
+            res.status(500).json({ success: "false", message: 'Something went wrong!' })
     }
 }
 
@@ -87,7 +86,7 @@ module.exports.updateMovie = async function (req, res) {
             let updated = await movieModel.updateMovie({ _id }, movie)
             movie._id = movieId
             if (updated == null)
-                res.status(500).json({ success: "false", message: "Internal server error" })
+                res.status(500).json({ success: "false", message: "Something went wrong" })
             else if (updated == false)
                 res.status(404).json({ success: "false", message: "Can't find the movie" })
             else
@@ -105,18 +104,19 @@ module.exports.updateMovie = async function (req, res) {
  * and sends a `JSON` response
  * @param req - express Request handler Object
  * @param res - express Response Object
+ * @todo Delete its comments
  */
 module.exports.deleteMovie = async function (req, res) {
     try {
         let movieId = req.params.movieId
         let _id = ObjectID(movieId)
         let deleted = await movieModel.deleteMovie({ _id })
-        if (deleted == true)
-            res.status(200).json({ success: "true", message: "movie deleted" })
-        else if (deleted == false)
+        if (deleted == false)
             res.status(404).json({ success: "false", message: "Can't find the movie" })
+        else if (deleted == null)
+            res.status(500).json({ success: "false", message: "Something went wrong" })
         else
-            res.status(500).json({ success: "false", message: "Internal server error" })
+            res.status(200).json({ success: "true", message: "Movie deleted", data: deleted })
     }
     catch (err) {
         res.status(404).json({ success: "false", message: "Can't find the movie" })

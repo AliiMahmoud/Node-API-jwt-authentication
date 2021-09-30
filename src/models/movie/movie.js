@@ -54,7 +54,6 @@ module.exports.getMovie = async function (filter) {
     }
 }
 
-
 /** 
  * It get all `movies` in the Database in an array
  * @returns `movies` Array
@@ -81,7 +80,6 @@ module.exports.getAllMovies = async function () {
     }
 }
 
-
 /** 
  * It *Deletes* a `movie` object using the provided `movieId`
  * and returns `true` or `false`
@@ -100,7 +98,7 @@ module.exports.deleteMovie = async function (filter) {
         if (result.value == null)
             return false
         else
-            return true
+            return result.value
     }
     catch (error) {
         if (!isProduction)
@@ -125,7 +123,6 @@ module.exports.updateMovie = async function (filter, movie) {
         const db = connection.getDB(dbName)
         const col = db.collection(colName);
         const result = await col.findOneAndReplace(filter, movie)
-        console.log(result)
         // if not found return false opertaion
         if (result.value == null)
             return false
@@ -134,7 +131,7 @@ module.exports.updateMovie = async function (filter, movie) {
 
     }
     catch (error) {
-        // if (!isProduction)
+        if (!isProduction)
         console.log(error.stack)
         return null;
     }

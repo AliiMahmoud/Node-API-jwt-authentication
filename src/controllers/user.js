@@ -32,7 +32,7 @@ module.exports.register = async function (req, res) {
             if (inserted.acknowledged)
                 res.status(201).json({ success: 'true', message: 'user created successfully', data: { id: inserted.insertedId, email, Token: getnerateToken({ id: inserted.insertedId, email }) } })
             else
-                res.status(500).json({ success: 'false', message: 'Internal server error' })
+                res.status(500).json({ success: 'false', message: 'Something went wrong' })
         }
         else
             res.status(400).json({ success: 'false', message: "user already exists" })

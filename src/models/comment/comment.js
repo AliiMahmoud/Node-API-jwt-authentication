@@ -58,6 +58,28 @@ module.exports.getComment = async function (filter) {
 }
 
 /** 
+ * It get all `comments` of a movie in the Database in an array
+ * @param {object} filter - filter to match
+ * @param {string} filter.movie_id - id of the movie
+ * @returns `comments` Array
+ * @example
+ *  let comments = getMovieComments({movie_id: '12'})
+*/
+module.exports.getMovieComments = async function (filter) {
+    try {
+        const db = connection.getDB(dbName)
+        const col = db.collection(colName);
+        const cursor = await col.find(filter).toArray()
+        return cursor
+    }
+    catch (error) {
+        if (!isProduction)
+            console.log(error.stack)
+        return null;
+    }
+}
+
+/** 
  * It *Deletes* a `comment` object using the provided `commentId`
  * and returns `true` or `false`
  * @param {object} filter - filter to match
@@ -71,8 +93,11 @@ module.exports.deleteComment = async function (filter) {
         const db = connection.getDB(dbName)
         const col = db.collection(colName);
         const result = await col.findOneAndDelete(filter)
-        /// TODO boolean or check the result
-        return result
+        // Not found
+        if (result.value == null)
+            return false
+        else
+            return result.value
     }
     catch (error) {
         if (!isProduction)
@@ -98,7 +123,11 @@ module.exports.updateComment = async function (filter, comment) {
         const db = connection.getDB(dbName)
         const col = db.collection(colName);
         const result = await col.findOneAndReplace(filter, comment)
-        return result
+        // if not found return false opertaion
+        if (result.value == null)
+            return false
+        else
+            return true
     }
     catch (error) {
         if (!isProduction)

@@ -4,6 +4,8 @@
   "description": "Node.js API Practise App with JWT Authentication",
   "main": "app.js",
   "scripts": {
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,7 +19,11 @@
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
     "mongodb": "^4.1.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
 }

@@ -15,10 +15,11 @@ To get the Node server running:
 
 
 ## Documentation
-
-- [Authorization](./_docs/api-documentation.md#Authorization)
-- [Endpoints](./_docs/api-documentation.md#API-Endpoints)
-- [Responses](./_docs/api-documentation.md#Response-Format)
+- [Swagger](./_docs/swagger-api-options.json)
+- [README](./_docs/api-documentation.md)
+    - [Authorization](./_docs/api-documentation.md#Authorization)
+    - [Endpoints](./_docs/api-documentation.md#API-Endpoints)
+    - [Responses](./_docs/api-documentation.md#Response-Format)
 
 # Project Overview
 
@@ -37,7 +38,7 @@ To get the Node server running:
 
 ```json
 [
-    "dotenv", "express", "express-jwt", "joi", "jsonwebtoken", "md5", "mongodb", "morgan"
+    "dotenv", "express", "express-jwt", "joi", "jsonwebtoken", "md5", "mongodb", "morgan", "swagger-ui-express"
 ]
 ```
 - [express](https://github.com/expressjs/express) - The server for handling and routing requests
@@ -47,6 +48,7 @@ To get the Node server running:
 - [Joi](https://github.com/sideway/joi) - A schema description language and data validator for JS.
 - [dotenv](https://github.com/motdotla/dotenv) - A module to load environment variables from a .env file into process.env
 - [morgan](https://github.com/expressjs/morgan#readme) - Request logger middleware
+- [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) - Swagger package for API documentation
 
 ---------------
 
@@ -56,3 +58,4 @@ To get the Node server running:
 - [Express middlewares](https://expressjs.com/en/guide/using-middleware.html) - To use middlewares as documented
 - [Joi ](https://joi.dev/api/) `Documentation`
 - [Using MongoDB Driver with Node](https://www.mongodb.com/blog/post/quick-start-nodejs-mongodb--how-to-get-connected-to-your-database)
+- [Swagger editor](https://editor.swagger.io/)

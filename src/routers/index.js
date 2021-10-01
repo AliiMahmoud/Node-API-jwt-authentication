@@ -3,11 +3,12 @@ const express = require('express')
 const moviesRouter = require('./APIs/movies')
 const theatersRouter = require('./APIs/theaters')
 const authRouter = require('./auth')
+// Importing Swagger for API Documentation
+const swaggerJsdoc = require("swagger-jsdoc")
+const swaggerUi = require("swagger-ui-express")
+const options = require('../../_docs/swagger-api-options.json')
 
 const router = express.Router()
-
-router.get('/', (_req, res) => res.status(200).json({ message: 'Welcome to Movie API APP' }))
-
 
 // API Routes
 
@@ -17,6 +18,13 @@ router.use('/api/movies', moviesRouter)
 router.use('/api/theaters', theatersRouter)
 // API Auth
 router.use('/api/users', authRouter)
+
+
+// API Documentation route
+const specs = swaggerJsdoc(options);
+router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true, customSiteTitle: 'API Documentation' })
+);
+
 
 
 // Exporting the main router

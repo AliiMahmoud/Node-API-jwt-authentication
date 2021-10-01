@@ -1,1 +1,39 @@
- 
+table {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+table td, table th {
+  padding-left: 25px;
+}
+table thead tr {
+  height: 60px;
+  background: #FFED86;
+  font-size: 16px;
+}
+table tbody tr {
+  height: 48px;
+  border-bottom: 1px solid #E3F1D5;
+}
+body {
+  background: rgb(236, 102, 102);
+  font: 400 14px 'Calibri','Arial';
+  padding: 20px;
+}
+
+.block-title
+{
+  font-size: xx-large;
+}
+tr td:first-child{
+  font-weight: bold;
+}
+table{
+  box-shadow: -12px -11px rgb(196, 196, 196);
+}

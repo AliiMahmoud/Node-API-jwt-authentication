@@ -75,14 +75,28 @@ module.exports.createComment = async function (req, res) {
  * @param res - express Response Object
  */
 module.exports.geComment = async function (req, res) {
+    try {
+        let movie_id = ObjectID(req.params.movieId)
+        let movie = await movieModel.getMovie({ _id: movie_id })
+        if (movie == null) {
+            res.status(404).json({ success: "false", message: 'not found' })
+        }
+        else {
+            let { commentId } = req.params
+            let _id = ObjectID(commentId)
+            let comment = await commentModel.getComment({ _id })
+            if (comment == null)
+                res.status(404).json({ success: "false", message: "not found" })
+            else
+                res.status(200).json({ success: "true", message: "Comment found", data: comment })
+        }
+    }
+    catch (err) {
+        res.status(404).json({ success: "false", message: 'not found' })
+    }
 
-    let { commentId } = req.params
-    let _id = ObjectID(commentId)
-    let comment = await commentModel.getComment({ _id })
-    if (comment == null)
-        res.status(404).json({ success: "false", message: "Can't find the comment" })
-    else
-        res.status(200).json({ success: "true", message: "Comment found", data: comment })
+
+
 }
 
 /**
@@ -142,13 +156,25 @@ module.exports.updateComment = async function (req, res) {
  * @param res - express Response Object
  */
 module.exports.deleteComment = async function (req, res) {
-    let commentId = req.params.commentId
-    let _id = ObjectID(commentId)
-    let deleted = await commentModel.deleteComment({ _id })
-    if (deleted == false)
-        res.status(404).json({ success: "false", message: "Can't find the comment" })
-    else if (deleted == null)
-        res.status(500).json({ success: "false", message: "Something went wrong" })
-    else
-        res.status(200).json({ success: "true", message: "Comment deleted", data: deleted })
+    try {
+        let movie_id = ObjectID(req.params.movieId)
+        let movie = await movieModel.getMovie({ _id: movie_id })
+        if (movie == null) {
+            res.status(404).json({ success: "false", message: 'not found' })
+        }
+        else {
+            let commentId = req.params.commentId
+            let _id = ObjectID(commentId)
+            let deleted = await commentModel.deleteComment({ _id })
+            if (deleted == false)
+                res.status(404).json({ success: "false", message: "not found" })
+            else if (deleted == null)
+                res.status(500).json({ success: "false", message: "Something went wrong" })
+            else
+                res.status(200).json({ success: "true", message: "Comment deleted", data: deleted })
+        }
+    }
+    catch (err) {
+        res.status(404).json({ success: "false", message: "not found" })
+    }
 }

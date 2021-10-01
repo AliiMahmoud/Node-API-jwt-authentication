@@ -25,6 +25,9 @@ app.use(express.json())
 app.use(morgan('dev'));
 app.use(router);
 
+// Initializing the Project Main Folder 
+app.use(express.static(path.join(__dirname, './public')))
+
 /// catch 404 and forward to error handler
 app.use(function (_req, res, _next) {
     var err = new Error('Not Found');
@@ -35,9 +38,6 @@ app.use(function (_req, res, _next) {
 //  Error handler middleware
 app.use(errorHandler)
 
-
-// Initializing the Project Main Folder 
-app.use(express.static(path.join(__dirname, './public')))
 
 // Setup Server 
 const port = process.env.PORT || 8080;

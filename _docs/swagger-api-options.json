@@ -1,0 +1,828 @@
+{
+    "definition": {
+        "openapi": "3.0.1",
+        "info": {
+            "version": "1.0.0",
+            "title": "NodeJS API App with JWT Authentication",
+            "description": "API CRUD Node APP (Express + MongoDB) with JWT auth. This app Performs API CRUD operations on mongodb movies database. <br> 1. Authorization/Generate access token <br> 2. CRUD on movies/theater <br> 3. CRUD on movie's comment  "
+        },
+        "tags": [
+            {
+                "name": "Authorization",
+                "description": "Generating Access token"
+            },
+            {
+                "name": "Movie",
+                "description": "Operations about Movies"
+            },
+            {
+                "name": "Theater",
+                "description": "Every Thing about Theaters"
+            },
+            {
+                "name": "Comment",
+                "description": "Pushed comments on a movie"
+            }
+        ],
+        "paths": {
+            "/api/users": {
+                "post": {
+                    "summary": "Create User and get your access token",
+                    "tags": [
+                        "Authorization"
+                    ],
+                    "requestBody": {
+                        "description": "Request body containing email & password",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "security": [],
+                    "operationId": "register",
+                    "responses": {
+                        "201": {
+                            "$ref": "#/components/responses/Created"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "400": {
+                            "$ref": "#/components/responses/BadRequest"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        }
+                    }
+                }
+            },
+            "/api/users/login": {
+                "post": {
+                    "summary": "Login to get your access token",
+                    "operationId": "login",
+                    "tags": [
+                        "Authorization"
+                    ],
+                    "requestBody": {
+                        "description": "Request body containing email & password",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "security": [],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                }
+            },
+            "/api/movies": {
+                "get": {
+                    "tags": [
+                        "Movie"
+                    ],
+                    "summary": "Getting all movies",
+                    "operationId": "getMovies",
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/movie"
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                },
+                "post": {
+                    "tags": [
+                        "Movie"
+                    ],
+                    "summary": "Creating a movie",
+                    "operationId": "postMovie",
+                    "requestBody": {
+                        "description": "Request body containing Moive data",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/movie"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": {
+                            "$ref": "#/components/responses/Created",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/movie"
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        }
+                    }
+                }
+            },
+            "/api/movies/{movieId}": {
+                "get": {
+                    "tags": [
+                        "Movie"
+                    ],
+                    "summary": "Getting a movie by Id",
+                    "operationId": "getMovie",
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "in": "path",
+                            "description": "Id of Movie to get it",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/movie"
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                },
+                "put": {
+                    "tags": [
+                        "Movie"
+                    ],
+                    "summary": "updating a movie if exists",
+                    "operationId": "putMovie",
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "in": "path",
+                            "description": "Id of Movie to update it",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "requestBody": {
+                        "description": "Request body containing Moive data",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/movie"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                },
+                "delete": {
+                    "tags": [
+                        "Movie"
+                    ],
+                    "summary": "Deleting a movie using its id",
+                    "operationId": "deleteMovie",
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "in": "path",
+                            "description": "Id of Movie to delete it",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                }
+            },
+            "/api/theaters": {
+                "get": {
+                    "tags": [
+                        "Theater"
+                    ],
+                    "summary": "Getting all Theater",
+                    "operationId": "getTheaters",
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/theater"
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        }
+                    }
+                },
+                "post": {
+                    "tags": [
+                        "Theater"
+                    ],
+                    "summary": "Creating a Theater",
+                    "operationId": "postTheater",
+                    "requestBody": {
+                        "description": "Request body containing Theater data",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/theater"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": {
+                            "$ref": "#/components/responses/Created"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        }
+                    }
+                }
+            },
+            "/api/theaters/{theaterId}": {
+                "get": {
+                    "tags": [
+                        "Theater"
+                    ],
+                    "summary": "Getting a Theater by Id",
+                    "operationId": "getTheater",
+                    "parameters": [
+                        {
+                            "name": "theaterId",
+                            "in": "path",
+                            "description": "Id of theater to get it",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/theater"
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                },
+                "put": {
+                    "tags": [
+                        "Theater"
+                    ],
+                    "summary": "Updating a Theater by Id/Create it if does'nt exist",
+                    "operationId": "putTheater",
+                    "requestBody": {
+                        "description": "Request body containing Theater data",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/theater"
+                                }
+                            }
+                        }
+                    },
+                    "parameters": [
+                        {
+                            "name": "theaterId",
+                            "in": "path",
+                            "description": "Id of theater to update it",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                },
+                "delete": {
+                    "tags": [
+                        "Theater"
+                    ],
+                    "summary": "deleting a Theater by Id",
+                    "operationId": "deleteTheater",
+                    "parameters": [
+                        {
+                            "name": "theaterId",
+                            "in": "path",
+                            "description": "Id of theater to delete it",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                }
+            },
+            "/api/movies/{movieId}/comments": {
+                "get": {
+                    "tags": [
+                        "Comment"
+                    ],
+                    "summary": "Getting post's all Comments",
+                    "operationId": "getComments",
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "in": "path",
+                            "description": "Id of Movie to show its comments",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/comment"
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                },
+                "post": {
+                    "tags": [
+                        "Comment"
+                    ],
+                    "summary": "Creating comment for a movie",
+                    "operationId": "postComment",
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "in": "path",
+                            "description": "Id of Movie to show its comments",
+                            "required": true
+                        }
+                    ],
+                    "requestBody": {
+                        "description": "Request body containing the comment",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/comment"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": {
+                            "$ref": "#/components/responses/Created"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                }
+            },
+            "/api/movies/{movieId}/comments/{commentId}": {
+                "get": {
+                    "tags": [
+                        "Comment"
+                    ],
+                    "summary": "Getting a movie's comment by thier Ids",
+                    "operationId": "getComment",
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "in": "path",
+                            "description": "Id of the movie",
+                            "required": true,
+                            "type": "string"
+                        },
+                        {
+                            "name": "commentId",
+                            "in": "path",
+                            "description": "Id of the comment",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/comment"
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                },
+                "put": {
+                    "tags": [
+                        "Comment"
+                    ],
+                    "summary": "Updating a movie's comment by thier Ids",
+                    "operationId": "putComment",
+                    "requestBody": {
+                        "description": "Request body containing the comment",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/comment"
+                                }
+                            }
+                        }
+                    },
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "in": "path",
+                            "description": "Id of the movie",
+                            "required": true,
+                            "type": "string"
+                        },
+                        {
+                            "name": "commentId",
+                            "in": "path",
+                            "description": "Id of the comment",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/comment"
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                },
+                "delete": {
+                    "tags": [
+                        "Comment"
+                    ],
+                    "summary": "Deleting a movie's comment by thier Ids",
+                    "operationId": "deleteComment",
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "in": "path",
+                            "description": "Id of the movie",
+                            "required": true,
+                            "type": "string"
+                        },
+                        {
+                            "name": "commentId",
+                            "in": "path",
+                            "description": "Id of the comment",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "$ref": "#/components/responses/Successful"
+                        },
+                        "500": {
+                            "$ref": "#/components/responses/InternalServerError"
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/UnauthorizedError"
+                        },
+                        "404": {
+                            "$ref": "#/components/responses/NotFound"
+                        }
+                    }
+                }
+            }
+        },
+        "basePath": "/",
+        "components": {
+            "responses": {
+                "UnauthorizedError": {
+                    "description": "Access token is missing or invalid",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "NotFound": {
+                    "description": "Data Not found",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "Created": {
+                    "description": "Data created successfully",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "InternalServerError": {
+                    "description": "Internal server error",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "BadRequest": {
+                    "description": "Bad request, Aleady exists",
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "Successful": {
+                    "description": "request made successfully",
+                    "content": {
+                        "application/json": {}
+                    }
+                }
+            },
+            "schemas": {
+                "user": {
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "type": "string",
+                            "required": true,
+                            "example": "ali@gmail.com"
+                        },
+                        "password": {
+                            "type": "string",
+                            "required": true,
+                            "example": "12345678"
+                        }
+                    },
+                    "required": [
+                        "email",
+                        "password"
+                    ]
+                },
+                "movie": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "required": true,
+                            "example": "movie title"
+                        },
+                        "plot": {
+                            "type": "string",
+                            "example": "this is the plot of the movie"
+                        },
+                        "cast": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "example": "actor 1"
+                            }
+                        }
+                    },
+                    "required": [
+                        "title",
+                        "plot"
+                    ]
+                },
+                "theater": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "required": true,
+                            "example": "theater name"
+                        },
+                        "address": {
+                            "type": "object",
+                            "properties": {
+                                "street": {
+                                    "type": "string",
+                                    "example": "street name"
+                                },
+                                "city": {
+                                    "type": "string",
+                                    "example": "city name"
+                                },
+                                "state": {
+                                    "type": "string",
+                                    "example": "state name"
+                                }
+                            },
+                            "required": [
+                                "street",
+                                "city",
+                                "state"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "address"
+                    ]
+                },
+                "comment": {
+                    "type": "object",
+                    "properties": {
+                        "text": {
+                            "type": "string",
+                            "required": true,
+                            "example": "comment text"
+                        }
+                    },
+                    "required": [
+                        "text"
+                    ]
+                },
+                "ApiResponse": {
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "success": {
+                            "type": "boolean"
+                        },
+                        "message": {
+                            "type": "string"
+                        },
+                        "data": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                }
+            },
+            "securitySchemes": {
+                "BearerAuth": {
+                    "type": "http",
+                    "scheme": "bearer"
+                }
+            }
+        },
+        "security": [
+            {
+                "BearerAuth": []
+            }
+        ]
+    },
+    "apis": [
+        "../src/routers/index.js"
+    ]
+}
